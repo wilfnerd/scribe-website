@@ -1,11 +1,15 @@
 // src/app/blog/page.tsx
+import React from "react";
 
-// A function that returns a JSX element
 export default function BlogPage() {
   return (
     <div>
-      <h1>Blog Posts</h1>
-      <p>This is my blog page.</p>
+      <h1>Blog</h1>
+      <p>Read our latest articles and updates.</p>
+      <ul>
+        <li>Article 1: Coming soon</li>
+        <li>Article 2: Coming soon</li>
+      </ul>
     </div>
   );
 }

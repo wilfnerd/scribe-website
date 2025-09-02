@@ -641,11 +641,420 @@ ul{list-style:none}
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Example for nav menu */
+/* default (desktop) */
 .nav-menu {
-  display: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.nav-menu.show {
+/* mobile override */
+@media (max-width: 720px) {
+  .nav-menu { display: none; }
+  .nav-menu.show { display: flex; flex-direction: column; gap: .5rem; padding: .8rem; }
+}
+
+/* ---------------------------
+   Header / Nav (canonical)
+   --------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+
+/* container layout */
+.nav-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .9rem 0;
+}
+
+/* brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+.brand-logo {
+  width: 40px;
+  height: auto;
   display: block;
+}
+.brand-name {
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: .2px;
+}
+
+/* nav */
+.nav {
+  position: relative;
+}
+
+/* desktop menu (default) */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.nav-menu a {
+  padding: .4rem .6rem;
+  border-radius: .5rem;
+  font-weight: 600;
+  color: inherit;
+}
+.nav-menu .divider {
+  width: 1px;
+  height: 20px;
+  background: var(--line);
+}
+
+/* toggle (hamburger) */
+.nav-toggle {
+  display: none; /* shown at mobile breakpoint below */
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  margin-left: auto;
+  z-index: 110;
+}
+
+/* the three bars */
+.nav-toggle .bar {
+  width: 24px;
+  height: 3px;
+  background: var(--ink); /* <- dark color so it shows on white header */
+  border-radius: 2px;
+  display: block;
+  transition: transform .25s ease, opacity .2s ease;
+}
+
+/* active => X */
+.nav-toggle.active .bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.active .bar:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.active .bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* mobile rules */
+@media (max-width: 720px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  /* menu becomes a right-side drawer */
+  .nav-menu {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: .9rem;
+    padding: .8rem;
+    width: min(92vw, 360px);
+    display: none;
+    flex-direction: column;
+    gap: .5rem;
+    box-shadow: 0 14px 34px rgba(31,41,55,.12);
+    z-index: 100;
+  }
+
+  .nav-menu.show {
+    display: flex;
+  }
+
+  .brand-name {
+    font-size: 1rem; /* slightly smaller on phones */
+  }
+}
+/* ===========================
+   Header toggle — override (place at EOF of globals.css)
+   =========================== */
+
+/* Ensure this comes last so it overrides earlier duplicates */
+header.site-header .nav-toggle {
+  display: none;               /* default hidden on desktop */
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 6px;
+  margin-left: auto;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  z-index: 120;                /* above the menu */
+  -webkit-tap-highlight-color: transparent;
+}
+header.site-header .nav-toggle:focus {
+  outline: 3px solid rgba(34, 197, 94, 0.18); /* accessible focus ring */
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* the three bars */
+header.site-header .nav-toggle .bar,
+header.site-header .nav-toggle span {
+  display: block;
+  width: 26px;
+  height: 3px;
+  background-color: var(--ink, #1f2937); /* guaranteed visible (dark) */
+  border-radius: 2px;
+  transition: transform 250ms ease, opacity 200ms ease, background-color 200ms ease;
+}
+
+/* Active -> X */
+header.site-header .nav-toggle.active .bar:nth-child(1),
+header.site-header .nav-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+header.site-header .nav-toggle.active .bar:nth-child(2),
+header.site-header .nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+header.site-header .nav-toggle.active .bar:nth-child(3),
+header.site-header .nav-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Show toggle on mobile only */
+@media (max-width: 720px) {
+  header.site-header .nav-toggle {
+    display: flex;
+    background: rgba(255,255,255,0.0); /* keep transparent, change if you want a visible circle */
+    border-radius: 8px;
+  }
+
+  /* ensure the mobile menu becomes a right-side drawer */
+  header.site-header .nav-menu {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: .9rem;
+    padding: .8rem;
+    width: min(92vw, 360px);
+    display: none; /* default hidden */
+    flex-direction: column;
+    gap: .5rem;
+    box-shadow: 0 14px 34px rgba(31,41,55,.12);
+    z-index: 100;
+  }
+  header.site-header .nav-menu.show {
+    display: flex;
+  }
+}
+
+/* Extra safety: if some other rule set bars transparent, force a solid color */
+header.site-header .nav-toggle .bar {
+  background-color: #1f2937 !important;
+}
+/* DEBUG: Force hamburger bars to be super visible */
+header.site-header .nav-toggle .bar,
+header.site-header .nav-toggle span {
+  display: block !important;
+  width: 25px !important;
+  height: 3px !important;
+  margin: 0.4px auto !important;
+  background-color: red !important; /* HIGH contrast debug color */
+}
+.nav-toggle .bar {
+  display: block !important;
+  width: 40px !important;
+  height: 6px !important;
+  background: red !important;
+  border: 2px solid black !important;
+  position: relative !important;
+  z-index: 9999 !important;
+}
+/* About Page Custom Styling */
+
+.about-hero {
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.about-section header h2 {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.about-section p {
+  font-size: 1.1rem;
+  line-height: 1.75rem;
+}
+
+.about-card {
+  transition: all 0.25s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.about-cta {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+/* ABOUT PAGE STYLES */
+
+/* --- HERO SECTION --- */
+.about-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 50vh;
+  padding: 3rem 1rem;
+  background: linear-gradient(135deg, #8a9a5b, #6f7f4a);
+  color: #fff;
+  border-radius: 0 0 30px 30px;
+}
+
+.about-hero h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.about-hero p {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+  color: #f1f7ec;
+}
+
+/* --- SECTIONS --- */
+.about-section {
+  padding: 4rem 1.5rem;
+}
+
+.about-section header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.about-section h2 {
+  font-size: 2rem;
+  color: #445030;
+  margin-bottom: 0.5rem;
+}
+
+.about-section p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* --- CARDS --- */
+.about-card {
+   background: #f9fff5;
+  border: 1px solid #e0e8dc;
+  border-radius: 15px;
+  padding: 2.5rem; /* ⬅ increased from 2rem for more internal breathing space */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 2rem; /* ⬅ NEW: spacing between stacked cards */
+}
+
+.about-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.about-card h3 {
+  color: #445030;
+  margin-bottom: 0.75rem;
+}
+
+.about-card p {
+  color: #555;
+  line-height: 1.6;
+}
+
+/* --- CTA --- */
+.about-cta {
+  background: #fff;
+  color: #2b2b2b;
+  text-align: center;
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  margin: 2rem auto;
+  border: 1px solid #e0e8dc;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.about-cta h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #445030;
+}
+
+.about-cta p {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.about-cta .btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  background: #445030;
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.about-cta .btn:hover {
+  background: #5b6b3b;
+}
+
+.about-cta .btn.border {
+  background: transparent;
+  color: #445030;
+  border: 1px solid #445030;
+}
+
+.about-cta .btn.border:hover {
+  background: #f1f7ec;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+  .about-hero h1 {
+    font-size: 2rem;
+  }
+  .about-hero p {
+    font-size: 1rem;
+  }
+}
+/* --- CONTAINER (CENTRALIZED LAYOUT) --- */
+.about-container {
+  max-width: 1120px; /* Adjust width as you prefer (960px, 1200px, etc.) */
+  margin: 0 auto; /* Centers horizontally */
+  padding: 0 1.5rem; /* Prevents text from touching edges */
+  text-align: center; /* Center all text inside */
+}
+.about-section .grid {
+  justify-content: center;
+}
+.cards {
+  display: grid;
+  gap: 2rem; /* controls spacing between .about-card elements */
 }
