@@ -2,8 +2,14 @@
 
 import Link from "next/link";
 import { useState, FormEvent, ChangeEvent } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
+  const { signup } = useAuth();
+  const router = useRouter();
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -17,7 +23,6 @@ export default function SignUpPage() {
     const value = e.target.value;
     setEmail(value);
 
-    // simple email regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(value)) {
       setEmailError("Please enter a valid email address.");
@@ -30,7 +35,6 @@ export default function SignUpPage() {
     const value = e.target.value;
     setPassword(value);
 
-    // password strength check
     let score = 0;
     if (/[a-z]/.test(value)) score++;
     if (/[A-Z]/.test(value)) score++;
@@ -51,33 +55,25 @@ export default function SignUpPage() {
     e.preventDefault();
     let valid = true;
 
-    // email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setEmailError("Please enter a valid email address.");
       valid = false;
-    } else {
-      setEmailError("");
     }
 
-    // password validation
     if (strength < 5) {
       setPasswordError("Password does not meet all requirements.");
       valid = false;
-    } else {
-      setPasswordError("");
     }
 
-    // confirm validation
     if (password !== confirm) {
       setConfirmError("Passwords do not match.");
       valid = false;
-    } else {
-      setConfirmError("");
     }
 
     if (valid) {
-      alert("Sign up submitted!");
+      signup(name, email, password);
+      router.push("/dashboard"); // ✅ redirect to dashboard
     }
   };
 
@@ -91,7 +87,13 @@ export default function SignUpPage() {
           <form id="signupForm" className="auth-form" onSubmit={handleSubmit}>
             <label>
               Full Name
-              <input type="text" name="name" required />
+              <input
+                type="text"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
             </label>
 
             <label>

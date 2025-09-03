@@ -1,19 +1,24 @@
-// src/app/signin/page.tsx
 "use client";
 
 import Link from "next/link";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
+  const { login } = useAuth();
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Add authentication logic here
-    alert("Sign in submitted!");
+    login(email, password);
+    router.push("/dashboard"); // ✅ redirect to dashboard
   };
 
   return (
     <main>
-      {/* Hero / Auth Section */}
       <section className="section auth-section">
         <div className="container auth-card">
           <h1>Welcome Back</h1>
@@ -22,12 +27,25 @@ export default function SignInPage() {
           <form id="signinForm" className="auth-form" onSubmit={handleSubmit}>
             <label>
               Email
-              <input type="email" name="email" required />
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </label>
 
             <label>
               Password
-              <input type="password" name="password" minLength={6} required />
+              <input
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                minLength={6}
+                required
+              />
             </label>
 
             <button type="submit" className="btn">
@@ -36,8 +54,7 @@ export default function SignInPage() {
           </form>
 
           <p className="auth-switch">
-            Don’t have an account?{" "}
-            <Link href="/signup">Sign Up</Link>
+            Don’t have an account? <Link href="/signup">Sign Up</Link>
           </p>
         </div>
       </section>

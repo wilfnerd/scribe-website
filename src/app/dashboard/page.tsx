@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, ChangeEvent, FormEvent } from "react";
+import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 export default function DashboardPage() {
-  const [userName, setUserName] = useState("Client"); // later: replace with real auth data
+  const { user } = useAuth();
   const [category, setCategory] = useState("");
   const [enquiry, setEnquiry] = useState("");
   const [consultationDate, setConsultationDate] = useState("");
@@ -24,11 +26,17 @@ export default function DashboardPage() {
   return (
     <main className="dashboard">
       <section className="container">
-        <h1>Welcome back, {userName}!</h1>
+        <h1>Welcome back, {user?.name || "Client"}!</h1>
         <p className="lead">Let’s get started on your writing project.</p>
 
+        {/* Home button */}
+        <p>
+          <Link href="/" className="btn btn-secondary">
+            ← Back to Home
+          </Link>
+        </p>
+
         <form onSubmit={handleSubmit} className="dashboard-form">
-          {/* Select Category */}
           <label>
             Select Category
             <select
@@ -44,7 +52,6 @@ export default function DashboardPage() {
             </select>
           </label>
 
-          {/* Enquiry */}
           <label>
             Make an Enquiry
             <textarea
@@ -55,7 +62,6 @@ export default function DashboardPage() {
             />
           </label>
 
-          {/* Book Consultation */}
           <label>
             Book Consultation
             <input
@@ -66,7 +72,6 @@ export default function DashboardPage() {
             />
           </label>
 
-          {/* Upload Files */}
           <label>
             Upload Files
             <input
@@ -76,6 +81,7 @@ export default function DashboardPage() {
               onChange={handleFileChange}
             />
           </label>
+
           {files.length > 0 && (
             <ul className="file-list">
               {files.map((file, i) => (
@@ -84,7 +90,6 @@ export default function DashboardPage() {
             </ul>
           )}
 
-          {/* Submit */}
           <button type="submit" className="btn">
             Submit Request
           </button>
