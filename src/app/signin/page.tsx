@@ -56,6 +56,10 @@ export default function SignInPage() {
           <p className="auth-switch">
             Don’t have an account? <Link href="/signup">Sign Up</Link>
           </p>
+
+          <p className="auth-switch">
+            <Link href="/forgot-password">Forgot your password?</Link>
+        </p>
         </div>
       </section>
     </main>
