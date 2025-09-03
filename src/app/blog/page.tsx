@@ -1,51 +1,18 @@
-// src/app/blog/page.tsx
+"use client";
+
 import Image from "next/image";
-import './blog.css';
-
-export const metadata = {
-  title: "Blog | WritePath Consulting",
-  description:
-    "Insights and resources from WritePath Consulting — guiding you with expert advice on immigration petitions, academic writing, media drafting, and more.",
-};
-
-// Blog posts data
-const blogPosts = [
-  {
-    title: "Top 5 Mistakes to Avoid in Your Immigration Application",
-    description:
-      "Our experts share the common pitfalls applicants face and how WritePath can guide you through a smoother journey.",
-    image: "/images/blog-immigration.jpg",
-    link: "#",
-    alt: "Immigration Consultation",
-  },
-  {
-    title: "How Strong Academic Writing Opens Global Opportunities",
-    description:
-      "Learn how professional academic writing services can boost your research visibility and impact.",
-    image: "/images/blog-academic.jpg",
-    link: "#",
-    alt: "Academic Writing",
-  },
-  {
-    title: "Crafting a CV That Stands Out Internationally",
-    description:
-      "Strategies from WritePath consultants to position your skills for competitive global markets.",
-    image: "/images/blog-cv.jpg",
-    link: "#",
-    alt: "Career Coaching",
-  },
-];
+import Link from "next/link";
 
 export default function BlogPage() {
   return (
-    <div className="blog-page">
-      {/* Hero Section */}
-      <section className="blog-hero section">
+    <main>
+      {/* Hero */}
+      <section className="hero section">
         <div className="container hero-center">
-          <h1>Insights & Resources</h1>
+          <h1>Insights &amp; Resources</h1>
           <p className="lead">
-            Stay updated with expert advice, immigration insights, academic guidance, and more —
-            curated by WritePath Consulting.
+            Stay updated with expert advice, immigration insights, academic
+            guidance, and more — curated by WritePath Consulting.
           </p>
         </div>
       </section>
@@ -53,26 +20,67 @@ export default function BlogPage() {
       {/* Blog Grid */}
       <section className="section blog-list">
         <div className="container grid-3">
-          {blogPosts.map((post, index) => (
-            <article key={index} className="card reveal">
-              <Image
-                src={post.image}
-                alt={post.alt}
-                width={800}
-                height={180}
-                style={{ objectFit: "cover", width: "100%", height: "180px" }}
-              />
-              <h3>
-                <a href={post.link}>{post.title}</a>
-              </h3>
-              <p>{post.description}</p>
-              <a className="link" href={post.link}>
-                Show more →
-              </a>
-            </article>
-          ))}
+          {/* Blog Post 1 */}
+          <article className="card">
+            <Image
+              src="/images/blog-immigration.jpg"
+              alt="Immigration Consultation"
+              width={800}
+              height={600}
+            />
+            <h3>
+              <Link href="#">Top 5 Mistakes to Avoid in Your Immigration Application</Link>
+            </h3>
+            <p>
+              Our experts share the common pitfalls applicants face and how
+              WritePath can guide you through a smoother journey.
+            </p>
+            <Link className="link" href="#">
+              Read more →
+            </Link>
+          </article>
+
+          {/* Blog Post 2 */}
+          <article className="card">
+            <Image
+              src="/images/blog-academic.jpg"
+              alt="Academic Writing"
+              width={800}
+              height={600}
+            />
+            <h3>
+              <Link href="#">How Strong Academic Writing Opens Global Opportunities</Link>
+            </h3>
+            <p>
+              Learn how professional academic writing services can boost your
+              research visibility and impact.
+            </p>
+            <Link className="link" href="#">
+              Read more →
+            </Link>
+          </article>
+
+          {/* Blog Post 3 */}
+          <article className="card">
+            <Image
+              src="/images/blog-cv.jpg"
+              alt="Career Coaching"
+              width={800}
+              height={600}
+            />
+            <h3>
+              <Link href="#">Crafting a CV That Stands Out Internationally</Link>
+            </h3>
+            <p>
+              Strategies from WritePath consultants to position your skills for
+              competitive global markets.
+            </p>
+            <Link className="link" href="#">
+              Read more →
+            </Link>
+          </article>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
